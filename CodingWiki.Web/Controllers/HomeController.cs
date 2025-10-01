@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using CodingWiki.Web.Models;
+using CodingWiki.Model.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodingWiki.Web.Controllers
