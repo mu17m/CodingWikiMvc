@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace CodingWiki.Model.Models
 {
-    public class Genre
+    public class SubCategory
     {
-        public int GenreId { get; set; }
-        public required string GenreName { get; set; }
-        public int DisplayOrder { get; set; }
+        [Key]
+        public int SubCategory_Id { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public required string Name { get; set; }
     }
 }
