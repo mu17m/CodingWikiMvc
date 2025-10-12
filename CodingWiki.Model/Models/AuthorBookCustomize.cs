@@ -15,6 +15,5 @@ namespace CodingWiki.Model.Models
         public int Book_Id { get; set; }
         public Author? Author { get; set; }
         public Book? Book { get; set; }
-        public string? CustomNote { get; set; }
     }
 }

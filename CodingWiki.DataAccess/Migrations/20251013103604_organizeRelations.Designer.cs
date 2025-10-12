@@ -4,6 +4,7 @@ using CodingWiki.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWiki.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251013103604_organizeRelations")]
+    partial class organizeRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -390,7 +393,7 @@ namespace CodingWiki.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("CodingWiki.Model.Models.Book", "Book")
-                        .WithMany("AuthorBooks")
+                        .WithMany()
                         .HasForeignKey("Book_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -465,8 +468,6 @@ namespace CodingWiki.DataAccess.Migrations
 
             modelBuilder.Entity("CodingWiki.Model.Models.Book", b =>
                 {
-                    b.Navigation("AuthorBooks");
-
                     b.Navigation("BookDetail");
                 });
 

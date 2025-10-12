@@ -21,7 +21,6 @@ namespace CodingWiki.Model.Models
         public DateTime BirthDate { get; set; }
         [MaxLength(100)]
         public string? Location { get; set; }
-        public List<Book>? Books { get; set; }
 
         [NotMapped]
         public string FullName 

@@ -18,6 +18,6 @@ namespace CodingWiki.Model.Models
         [ForeignKey("Book")]
         public int Book_Id { get; set; }       
         public Book? Book { get; set; }
-
+        
     }
 }

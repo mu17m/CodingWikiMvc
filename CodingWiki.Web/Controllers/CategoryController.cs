@@ -56,6 +56,51 @@ namespace CodingWiki.Web.Controllers
             return View(category);
         }
 
+        public IActionResult CreateMultiple2()
+        {
+            List<Category> categories = new()
+            {
+                new Category { Name = Guid.NewGuid().ToString() },
+                new Category { Name = Guid.NewGuid().ToString() },
+            };
+            _db.Categories.AddRange(categories);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        public IActionResult CreateMultiple5()
+        {
+            List<Category> categories = new()
+            {
+                new Category { Name = Guid.NewGuid().ToString() },
+                new Category { Name = Guid.NewGuid().ToString() },
+                new Category { Name = Guid.NewGuid().ToString() },
+                new Category { Name = Guid.NewGuid().ToString() },
+                new Category { Name = Guid.NewGuid().ToString() }
+            };
+            _db.Categories.AddRange(categories);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult RemoveMultiple2()
+        {
+            List<Category> categories = _db.Categories.OrderByDescending(c => c.CategoryId).Take(2).ToList();
+            if(categories.Count < 1)
+                return RedirectToAction(nameof(Index));
+            _db.Categories.RemoveRange(categories);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        public IActionResult RemoveMultiple5()
+        {
+            List<Category> categories = _db.Categories.OrderByDescending(c => c.CategoryId).Take(5).ToList();
+            if (categories.Count < 1)
+                return RedirectToAction(nameof(Index));
+            _db.Categories.RemoveRange(categories);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
         public async Task<IActionResult> Delete(int? Id)
         {
             Category? category = _db.Categories.FirstOrDefault(c => c.CategoryId == Id);
