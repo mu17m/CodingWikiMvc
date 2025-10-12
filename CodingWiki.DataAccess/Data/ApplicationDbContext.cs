@@ -1,4 +1,5 @@
-﻿using CodingWiki.Model.Models;
+﻿using CodingWiki.DataAccess.FluentConfig;
+using CodingWiki.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,24 +11,39 @@ namespace CodingWiki.DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Book> Books { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Author> Authors { get; set; }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+            
+        }
         public DbSet<Publisher> Publishers { get; set; }
-        public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Book> Books { get; set; }
         public DbSet<BookDetail> BookDetails { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<AuthorBookCustomize> AuthorBooks { get; set; }
+        public DbSet<Fluent_BookDetail> BookDetail_Fluent { get; set; }
+        public DbSet<Fluent_Book> Fluent_Books { get; set; }
+        public DbSet<Fluent_Author> Fluent_Authors { get; set; }
+        public DbSet<Fluent_Publisher> Fluent_Publishers { get; set; }
+        public DbSet<Fluent_AuthorBookCustomize> Fluent_AuthorBooks { get; set; }
+        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.; Database=CodingWikiDB; Trusted_Connection=True; TrustServerCertificate=True;");
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>().Property(book => book.Price).HasPrecision(10, 5);
             modelBuilder.Entity<AuthorBookCustomize>().HasKey(ab => new { ab.Author_Id, ab.Book_Id});
-            //modelBuilder.Entity<BookDetail>().HasOne(bd => bd.Book)
-            //    .WithOne(b => b.BookDetail)
-            //    .HasForeignKey<BookDetail>(bd => bd.Book_Id);
+
+            modelBuilder.ApplyConfiguration(new FluentBookDetailConfig());
+            modelBuilder.ApplyConfiguration(new FluentBookConfig());
+            modelBuilder.ApplyConfiguration(new FluentAuthorConfig());
+            modelBuilder.ApplyConfiguration(new FluentPublisherConfig());
+            modelBuilder.ApplyConfiguration(new FluentAuthorBookConfig());
+
             //modelBuilder.Entity<Book>().OwnsOne(c => c.Authors);
             //modelBuilder.Owned<Book>();
             modelBuilder.Entity<Book>().HasData(
